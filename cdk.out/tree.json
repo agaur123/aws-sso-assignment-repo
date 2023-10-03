@@ -1,0 +1,2204 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "AssignmentManagementIAM": {
+        "id": "AssignmentManagementIAM",
+        "path": "AssignmentManagementIAM",
+        "children": {
+          "CTEventBus": {
+            "id": "CTEventBus",
+            "path": "AssignmentManagementIAM/CTEventBus",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/CTEventBus/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "enterprise-aws-sso"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnEventBus",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.EventBus",
+              "version": "2.95.1"
+            }
+          },
+          "CTEventBusPolicy": {
+            "id": "CTEventBusPolicy",
+            "path": "AssignmentManagementIAM/CTEventBusPolicy",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Events::EventBusPolicy",
+              "aws:cdk:cloudformation:props": {
+                "action": "events:PutEvents",
+                "eventBusName": {
+                  "Ref": "CTEventBusEAA6AEAD"
+                },
+                "principal": "178337422308",
+                "statementId": "allow-management-account"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.CfnEventBusPolicy",
+              "version": "2.95.1"
+            }
+          },
+          "CTEventBusPolicyDeployment": {
+            "id": "CTEventBusPolicyDeployment",
+            "path": "AssignmentManagementIAM/CTEventBusPolicyDeployment",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Events::EventBusPolicy",
+              "aws:cdk:cloudformation:props": {
+                "action": "events:PutEvents",
+                "eventBusName": {
+                  "Ref": "CTEventBusEAA6AEAD"
+                },
+                "principal": "171511808349",
+                "statementId": "allow-deployment-account"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.CfnEventBusPolicy",
+              "version": "2.95.1"
+            }
+          },
+          "CTEventBusPolicyIAM": {
+            "id": "CTEventBusPolicyIAM",
+            "path": "AssignmentManagementIAM/CTEventBusPolicyIAM",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Events::EventBusPolicy",
+              "aws:cdk:cloudformation:props": {
+                "action": "events:PutEvents",
+                "eventBusName": {
+                  "Ref": "CTEventBusEAA6AEAD"
+                },
+                "principal": "171511808349",
+                "statementId": "allow-iam-account"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.CfnEventBusPolicy",
+              "version": "2.95.1"
+            }
+          },
+          "ErrorNotificationTopic": {
+            "id": "ErrorNotificationTopic",
+            "path": "AssignmentManagementIAM/ErrorNotificationTopic",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/ErrorNotificationTopic/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SNS::Topic",
+                  "aws:cdk:cloudformation:props": {}
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sns.CfnTopic",
+                  "version": "2.95.1"
+                }
+              },
+              "aman.gaur5@gilead.com": {
+                "id": "aman.gaur5@gilead.com",
+                "path": "AssignmentManagementIAM/ErrorNotificationTopic/aman.gaur5@gilead.com",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementIAM/ErrorNotificationTopic/aman.gaur5@gilead.com/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SNS::Subscription",
+                      "aws:cdk:cloudformation:props": {
+                        "endpoint": "aman.gaur5@gilead.com",
+                        "protocol": "email",
+                        "topicArn": {
+                          "Ref": "ErrorNotificationTopic0DACB6F3"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sns.CfnSubscription",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sns.Subscription",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sns.Topic",
+              "version": "2.95.1"
+            }
+          },
+          "permission-assignments-table": {
+            "id": "permission-assignments-table",
+            "path": "AssignmentManagementIAM/permission-assignments-table",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/permission-assignments-table/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "mappingId",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "mappingValue",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "mappingId",
+                        "keyType": "HASH"
+                      },
+                      {
+                        "attributeName": "mappingValue",
+                        "keyType": "RANGE"
+                      }
+                    ],
+                    "sseSpecification": {
+                      "sseEnabled": true
+                    },
+                    "streamSpecification": {
+                      "streamViewType": "NEW_AND_OLD_IMAGES"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.95.1"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "AssignmentManagementIAM/permission-assignments-table/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.95.1"
+            }
+          },
+          "assignment-processing-queue": {
+            "id": "assignment-processing-queue",
+            "path": "AssignmentManagementIAM/assignment-processing-queue",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/assignment-processing-queue/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {
+                    "delaySeconds": 30,
+                    "kmsMasterKeyId": "alias/aws/sqs",
+                    "queueName": "assignment-processing-queue",
+                    "visibilityTimeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
+              "version": "2.95.1"
+            }
+          },
+          "ServiceEventHandlerRole": {
+            "id": "ServiceEventHandlerRole",
+            "path": "AssignmentManagementIAM/ServiceEventHandlerRole",
+            "children": {
+              "ImportServiceEventHandlerRole": {
+                "id": "ImportServiceEventHandlerRole",
+                "path": "AssignmentManagementIAM/ServiceEventHandlerRole/ImportServiceEventHandlerRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/ServiceEventHandlerRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "eventbus",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "events:PutEvents",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "CTEventBusEAA6AEAD",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "DBAssignmentHandlerRole": {
+            "id": "DBAssignmentHandlerRole",
+            "path": "AssignmentManagementIAM/DBAssignmentHandlerRole",
+            "children": {
+              "ImportDBAssignmentHandlerRole": {
+                "id": "ImportDBAssignmentHandlerRole",
+                "path": "AssignmentManagementIAM/DBAssignmentHandlerRole/ImportDBAssignmentHandlerRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/DBAssignmentHandlerRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "dynamodb",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "dynamodb:BatchWrite*",
+                                "dynamodb:Update*",
+                                "dynamodb:PutItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "permissionassignmentstable9AF35F45",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "dynamodb:BatchWrite*",
+                                "dynamodb:Update*",
+                                "dynamodb:PutItem",
+                                "dynamodb:Query",
+                                "dynamodb:DeleteItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "permissionassignmentstable9AF35F45",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "AssignmentDefinitionHandlerRole": {
+            "id": "AssignmentDefinitionHandlerRole",
+            "path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole",
+            "children": {
+              "ImportAssignmentDefinitionHandlerRole": {
+                "id": "ImportAssignmentDefinitionHandlerRole",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/ImportAssignmentDefinitionHandlerRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "sqs-publish-policy",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "sqs:SendMessage",
+                                "sqs:SendMessageBatch",
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "assignmentprocessingqueue31A78DA2",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      },
+                      {
+                        "policyName": "dynamodb",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "dynamodb:BatchWrite*",
+                                "dynamodb:Update*",
+                                "dynamodb:PutItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "permissionassignmentstable9AF35F45",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "dynamodb:BatchWrite*",
+                                "dynamodb:Update*",
+                                "dynamodb:PutItem",
+                                "dynamodb:Query",
+                                "dynamodb:DeleteItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "permissionassignmentstable9AF35F45",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ],
+                    "roleName": "assignment-management-read-only-role"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:iam::178337422308:role/assignment-management-read-only-role"
+                            },
+                            {
+                              "Action": "sns:Publish",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Ref": "ErrorNotificationTopic0DACB6F3"
+                              }
+                            },
+                            {
+                              "Action": "dynamodb:ListStreams",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "dynamodb:DescribeStream",
+                                "dynamodb:GetRecords",
+                                "dynamodb:GetShardIterator"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "permissionassignmentstable9AF35F45",
+                                  "StreamArn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "dynamodb:BatchGetItem",
+                                "dynamodb:GetRecords",
+                                "dynamodb:GetShardIterator",
+                                "dynamodb:Query",
+                                "dynamodb:GetItem",
+                                "dynamodb:Scan",
+                                "dynamodb:ConditionCheckItem",
+                                "dynamodb:DescribeTable"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "permissionassignmentstable9AF35F45",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Ref": "AWS::NoValue"
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "AssignmentDefinitionHandlerRoleDefaultPolicy2C5E9E74",
+                        "roles": [
+                          {
+                            "Ref": "AssignmentDefinitionHandlerRole6E1F344D"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "AssignmentExecRole": {
+            "id": "AssignmentExecRole",
+            "path": "AssignmentManagementIAM/AssignmentExecRole",
+            "children": {
+              "ImportAssignmentExecRole": {
+                "id": "ImportAssignmentExecRole",
+                "path": "AssignmentManagementIAM/AssignmentExecRole/ImportAssignmentExecRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/AssignmentExecRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "assignment-policy",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "sso:CreateAccountAssignment",
+                                "sso:ListPermissionSetsProvisionedToAccount",
+                                "sso:ListInstances",
+                                "sso:DeleteAccountAssignment"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "sns:Publish",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Ref": "ErrorNotificationTopic0DACB6F3"
+                              },
+                              "Sid": "AllowPublishingToSns"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ],
+                    "roleName": "assignment-management-role"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "AssignmentManagementIAM/AssignmentExecRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementIAM/AssignmentExecRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:iam::178337422308:role/assignment-management-role"
+                            },
+                            {
+                              "Action": [
+                                "sqs:ReceiveMessage",
+                                "sqs:ChangeMessageVisibility",
+                                "sqs:GetQueueUrl",
+                                "sqs:DeleteMessage",
+                                "sqs:GetQueueAttributes"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "assignmentprocessingqueue31A78DA2",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "AssignmentExecRoleDefaultPolicy3DAA88AA",
+                        "roles": [
+                          {
+                            "Ref": "AssignmentExecRole911FBA53"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "CommonLambdaLayer": {
+            "id": "CommonLambdaLayer",
+            "path": "AssignmentManagementIAM/CommonLambdaLayer",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/CommonLambdaLayer/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/CommonLambdaLayer/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/CommonLambdaLayer/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/CommonLambdaLayer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "compatibleRuntimes": [
+                      "python3.10"
+                    ],
+                    "content": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "3c89272f98883cf2d639211d7084e1ea5f6424a61d6de772aa22d184150e7700.zip"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.LayerVersion",
+              "version": "2.95.1"
+            }
+          },
+          "OrganizationsLambdaLayer": {
+            "id": "OrganizationsLambdaLayer",
+            "path": "AssignmentManagementIAM/OrganizationsLambdaLayer",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/OrganizationsLambdaLayer/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/OrganizationsLambdaLayer/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/OrganizationsLambdaLayer/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/OrganizationsLambdaLayer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "compatibleRuntimes": [
+                      "python3.10"
+                    ],
+                    "content": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "a1ec388b7fba4e730ea630c95238f44556a2beb81d0776514b4ac6f41d61cbaa.zip"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.LayerVersion",
+              "version": "2.95.1"
+            }
+          },
+          "SsoLambdaLayer": {
+            "id": "SsoLambdaLayer",
+            "path": "AssignmentManagementIAM/SsoLambdaLayer",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/SsoLambdaLayer/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/SsoLambdaLayer/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/SsoLambdaLayer/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/SsoLambdaLayer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "compatibleRuntimes": [
+                      "python3.10"
+                    ],
+                    "content": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "0756395aac185901c1fdd81db3b436ccc3c26453ae9437b29f9cd721462c23bb.zip"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.LayerVersion",
+              "version": "2.95.1"
+            }
+          },
+          "DBAssignmentHandler": {
+            "id": "DBAssignmentHandler",
+            "path": "AssignmentManagementIAM/DBAssignmentHandler",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/DBAssignmentHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/DBAssignmentHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/DBAssignmentHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/DBAssignmentHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "0e987e982130a4f1b10aebb52de96614a8414afcf30b69e04720dc2b86eec165.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "ERROR_TOPIC_NAME": {
+                          "Ref": "ErrorNotificationTopic0DACB6F3"
+                        },
+                        "ASSIGNMENTS_TABLE_NAME": {
+                          "Ref": "permissionassignmentstable9AF35F45"
+                        },
+                        "ASSOCIATIONID_KEY_NAME": "mappingId",
+                        "ASSOCIATIONID_SORT_KEY_NAME": "mappingValue",
+                        "LOG_LEVEL": "INFO",
+                        "POWERTOOLS_SERVICE_NAME": "enterprise-aws-sso"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonLambdaLayer45D02D64"
+                      }
+                    ],
+                    "memorySize": 256,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "DBAssignmentHandlerRole28FE2957",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.10"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.95.1"
+            }
+          },
+          "DBAssignmentsEventsRule": {
+            "id": "DBAssignmentsEventsRule",
+            "path": "AssignmentManagementIAM/DBAssignmentsEventsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/DBAssignmentsEventsRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "Forward record creation events",
+                    "eventBusName": {
+                      "Ref": "CTEventBusEAA6AEAD"
+                    },
+                    "eventPattern": {
+                      "source": [
+                        "permissionEventSource"
+                      ]
+                    },
+                    "name": "Forwarding-to-db-assignment-handler",
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "DBAssignmentHandler3353568E",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.95.1"
+                }
+              },
+              "AllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060": {
+                "id": "AllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060",
+                "path": "AssignmentManagementIAM/DBAssignmentsEventsRule/AllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "DBAssignmentHandler3353568E",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "DBAssignmentsEventsRuleBC8A1FD4",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.95.1"
+            }
+          },
+          "ServiceEventHandler": {
+            "id": "ServiceEventHandler",
+            "path": "AssignmentManagementIAM/ServiceEventHandler",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/ServiceEventHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/ServiceEventHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/ServiceEventHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/ServiceEventHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "03449e382d5c2a58c91f66e98652c4363534980015170697b7636cbb119de4cc.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "ERROR_TOPIC_NAME": {
+                          "Ref": "ErrorNotificationTopic0DACB6F3"
+                        },
+                        "LOG_LEVEL": "INFO",
+                        "POWERTOOLS_SERVICE_NAME": "enterprise-aws-sso",
+                        "IAM_EVENT_BRIDGE_ARN": {
+                          "Fn::GetAtt": [
+                            "CTEventBusEAA6AEAD",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonLambdaLayer45D02D64"
+                      }
+                    ],
+                    "memorySize": 256,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "ServiceEventHandlerRole08403CFD",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.10"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.95.1"
+            }
+          },
+          "ServiceEventHandlerEventsRule": {
+            "id": "ServiceEventHandlerEventsRule",
+            "path": "AssignmentManagementIAM/ServiceEventHandlerEventsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/ServiceEventHandlerEventsRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "Forward AWS Service Events",
+                    "eventBusName": {
+                      "Ref": "CTEventBusEAA6AEAD"
+                    },
+                    "eventPattern": {
+                      "detail-type": [
+                        "AWS Service Event via CloudTrail",
+                        "AWS API Call via CloudTrail"
+                      ]
+                    },
+                    "name": "Forwarding-to-service-event-handler",
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "ServiceEventHandler546AE822",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.95.1"
+                }
+              },
+              "AllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B938": {
+                "id": "AllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B938",
+                "path": "AssignmentManagementIAM/ServiceEventHandlerEventsRule/AllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B938",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "ServiceEventHandler546AE822",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "ServiceEventHandlerEventsRule810E9949",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.95.1"
+            }
+          },
+          "AssignmentDefinitionHandler": {
+            "id": "AssignmentDefinitionHandler",
+            "path": "AssignmentManagementIAM/AssignmentDefinitionHandler",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "68e7341490e0c14941f248772ca8245bd833c33e2926c81c38d24ace3f781c7f.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "ASSIGNMENTS_TABLE_NAME": {
+                          "Ref": "permissionassignmentstable9AF35F45"
+                        },
+                        "ASSIGNMENTS_QUEUE_URL": {
+                          "Ref": "assignmentprocessingqueue31A78DA2"
+                        },
+                        "ERROR_TOPIC_NAME": {
+                          "Ref": "ErrorNotificationTopic0DACB6F3"
+                        },
+                        "LOG_LEVEL": "INFO",
+                        "POWERTOOLS_SERVICE_NAME": "enterprise-sso",
+                        "ASSOCIATIONID_CONCAT_CHAR": "|",
+                        "ASSOCIATIONID_KEY_NAME": "mappingId",
+                        "ASSOCIATIONID_SORT_KEY_NAME": "mappingValue",
+                        "SSO_ADMIN_ROLE_ARN": "arn:aws:iam::178337422308:role/assignment-management-read-only-role"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonLambdaLayer45D02D64"
+                      },
+                      {
+                        "Ref": "OrganizationsLambdaLayer6E05B9CF"
+                      },
+                      {
+                        "Ref": "SsoLambdaLayer5956D8D2"
+                      }
+                    ],
+                    "memorySize": 256,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "AssignmentDefinitionHandlerRole6E1F344D",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.10",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.95.1"
+                }
+              },
+              "DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4": {
+                "id": "DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4",
+                "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementIAM/AssignmentDefinitionHandler/DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "batchSize": 5,
+                        "bisectBatchOnFunctionError": true,
+                        "destinationConfig": {
+                          "onFailure": {
+                            "destination": {
+                              "Ref": "ErrorNotificationTopic0DACB6F3"
+                            }
+                          }
+                        },
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "permissionassignmentstable9AF35F45",
+                            "StreamArn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "AssignmentDefinitionHandler8C51BCEE"
+                        },
+                        "maximumRetryAttempts": 3,
+                        "startingPosition": "TRIM_HORIZON"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.95.1"
+            }
+          },
+          "AssignmentDefenitionEventsRule": {
+            "id": "AssignmentDefenitionEventsRule",
+            "path": "AssignmentManagementIAM/AssignmentDefenitionEventsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/AssignmentDefenitionEventsRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "Forward Events",
+                    "eventBusName": {
+                      "Ref": "CTEventBusEAA6AEAD"
+                    },
+                    "eventPattern": {
+                      "account": [
+                        "171511808349"
+                      ],
+                      "source": [
+                        "enterprise-aws-sso"
+                      ]
+                    },
+                    "name": "Forwarding-to-defenition-handler",
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "AssignmentDefinitionHandler8C51BCEE",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.95.1"
+                }
+              },
+              "AllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6C": {
+                "id": "AllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6C",
+                "path": "AssignmentManagementIAM/AssignmentDefenitionEventsRule/AllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6C",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "AssignmentDefinitionHandler8C51BCEE",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "AssignmentDefenitionEventsRuleE45A42B3",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.95.1"
+            }
+          },
+          "AssignmentExecutionHandler": {
+            "id": "AssignmentExecutionHandler",
+            "path": "AssignmentManagementIAM/AssignmentExecutionHandler",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "AssignmentManagementIAM/AssignmentExecutionHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "AssignmentManagementIAM/AssignmentExecutionHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "AssignmentManagementIAM/AssignmentExecutionHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementIAM/AssignmentExecutionHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "ea0757c0442bfbe62120f7be0da7c5d86222c9fa38e3c211caa05ca31e4bb7bc.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "ERROR_TOPIC_NAME": {
+                          "Ref": "ErrorNotificationTopic0DACB6F3"
+                        },
+                        "LOG_LEVEL": "INFO",
+                        "POWERTOOLS_SERVICE_NAME": "enterprise-sso",
+                        "ASSOCIATIONID_CONCAT_CHAR": "|",
+                        "SSO_ADMIN_ROLE_ARN": "arn:aws:iam::178337422308:role/assignment-management-role",
+                        "MANAGEMENT_ACCOUNT_ID": "178337422308"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonLambdaLayer45D02D64"
+                      },
+                      {
+                        "Ref": "SsoLambdaLayer5956D8D2"
+                      }
+                    ],
+                    "memorySize": 256,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "AssignmentExecRole911FBA53",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.10",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.95.1"
+                }
+              },
+              "SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED": {
+                "id": "SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED",
+                "path": "AssignmentManagementIAM/AssignmentExecutionHandler/SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementIAM/AssignmentExecutionHandler/SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "batchSize": 10,
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "assignmentprocessingqueue31A78DA2",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "AssignmentExecutionHandlerC32C576A"
+                        },
+                        "scalingConfig": {
+                          "maximumConcurrency": 2
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.95.1"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "AssignmentManagementIAM/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "AssignmentManagementIAM/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.95.1"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "AssignmentManagementIAM/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.2.70"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "AssignmentManagementIAM/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.95.1"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "AssignmentManagementIAM/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.95.1"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.95.1"
+        }
+      },
+      "AssignmentManagementRoot": {
+        "id": "AssignmentManagementRoot",
+        "path": "AssignmentManagementRoot",
+        "children": {
+          "EnterpriseAWSSSOReadOnlyRole": {
+            "id": "EnterpriseAWSSSOReadOnlyRole",
+            "path": "AssignmentManagementRoot/EnterpriseAWSSSOReadOnlyRole",
+            "children": {
+              "ImportEnterpriseAWSSSOReadOnlyRole": {
+                "id": "ImportEnterpriseAWSSSOReadOnlyRole",
+                "path": "AssignmentManagementRoot/EnterpriseAWSSSOReadOnlyRole/ImportEnterpriseAWSSSOReadOnlyRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementRoot/EnterpriseAWSSSOReadOnlyRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": "arn:aws:iam::171511808349:role/assignment-management-read-only-role"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AWSSSOReadOnly"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "identitystore-readonly",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "identitystore:DescribeUser",
+                                "identitystore:ListUsers",
+                                "identitystore:DescribeGroup",
+                                "identitystore:ListGroups"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      },
+                      {
+                        "policyName": "organizations-readonly",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "organizations:DescribeOrganizationalUnit",
+                                "tag:GetResources"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ],
+                    "roleName": "assignment-management-read-only-role"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "EnterpriseAWSSSOAssignmentManagementRole": {
+            "id": "EnterpriseAWSSSOAssignmentManagementRole",
+            "path": "AssignmentManagementRoot/EnterpriseAWSSSOAssignmentManagementRole",
+            "children": {
+              "ImportEnterpriseAWSSSOAssignmentManagementRole": {
+                "id": "ImportEnterpriseAWSSSOAssignmentManagementRole",
+                "path": "AssignmentManagementRoot/EnterpriseAWSSSOAssignmentManagementRole/ImportEnterpriseAWSSSOAssignmentManagementRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementRoot/EnterpriseAWSSSOAssignmentManagementRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": "arn:aws:iam::171511808349:role/assignment-management-role"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "policies": [
+                      {
+                        "policyName": "enterprise-sso-assignment-management",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "sso:CreateAccountAssignment",
+                                "sso:ListPermissionSetsProvisionedToAccount",
+                                "sso:ListInstances",
+                                "sso:DeleteAccountAssignment"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "organizations:ListDelegatedAdministrators",
+                              "Effect": "Allow",
+                              "Resource": "*",
+                              "Sid": "ListDelegatedAdministrators"
+                            },
+                            {
+                              "Action": [
+                                "iam:ListRoles",
+                                "iam:ListPolicies"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*",
+                              "Sid": "IAMListPermissions"
+                            },
+                            {
+                              "Action": [
+                                "iam:AttachRolePolicy",
+                                "iam:CreateRole",
+                                "iam:DeleteRole",
+                                "iam:DeleteRolePolicy",
+                                "iam:DetachRolePolicy",
+                                "iam:GetRole",
+                                "iam:ListAttachedRolePolicies",
+                                "iam:ListRolePolicies",
+                                "iam:PutRolePolicy",
+                                "iam:UpdateRole",
+                                "iam:UpdateRoleDescription"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*",
+                              "Sid": "AccessToSSOProvisionedRoles"
+                            },
+                            {
+                              "Action": "iam:GetSAMLProvider",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:iam::*:saml-provider/AWSSSO_*_DO_NOT_DELETE"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ],
+                    "roleName": "assignment-management-role"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.95.1"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "AssignmentManagementRoot/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "AssignmentManagementRoot/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.95.1"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "AssignmentManagementRoot/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.2.70"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "AssignmentManagementRoot/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.95.1"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "AssignmentManagementRoot/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.95.1"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.95.1"
+        }
+      },
+      "AssignmentManagementRootUsEast1": {
+        "id": "AssignmentManagementRootUsEast1",
+        "path": "AssignmentManagementRootUsEast1",
+        "children": {
+          "enterpriseawsssoEventbus": {
+            "id": "enterpriseawsssoEventbus",
+            "path": "AssignmentManagementRootUsEast1/enterpriseawsssoEventbus",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.95.1"
+            }
+          },
+          "OrganizationsEventsRule": {
+            "id": "OrganizationsEventsRule",
+            "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "Forward Organizations events to enterprise-aws-sso",
+                    "eventPattern": {
+                      "detail": {
+                        "eventName": [
+                          "CreateAccountResult",
+                          "MoveAccount",
+                          "TagResource",
+                          "UntagResource"
+                        ]
+                      },
+                      "detail-type": [
+                        "AWS Service Event via CloudTrail",
+                        "AWS API Call via CloudTrail"
+                      ],
+                      "source": [
+                        "aws.organizations"
+                      ]
+                    },
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso",
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "OrganizationsEventsRuleEventsRole15EE8FDE",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.95.1"
+                }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "OrganizationsEventsRuleEventsRoleDefaultPolicyB39E6E6E",
+                            "roles": [
+                              {
+                                "Ref": "OrganizationsEventsRuleEventsRole15EE8FDE"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.95.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.95.1"
+            }
+          },
+          "AWSSSOEventsRule": {
+            "id": "AWSSSOEventsRule",
+            "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "Forward CT events to enterprise-aws-sso",
+                    "eventPattern": {
+                      "detail": {
+                        "eventName": [
+                          "CreatePermissionSet",
+                          "DeletePermissionSet"
+                        ]
+                      },
+                      "detail-type": [
+                        "AWS Service Event via CloudTrail",
+                        "AWS API Call via CloudTrail"
+                      ],
+                      "source": [
+                        "aws.sso"
+                      ]
+                    },
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso",
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "AWSSSOEventsRuleEventsRole1C4E9D3E",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.95.1"
+                }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "AWSSSOEventsRuleEventsRoleDefaultPolicy571229A5",
+                            "roles": [
+                              {
+                                "Ref": "AWSSSOEventsRuleEventsRole1C4E9D3E"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.95.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.95.1"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "AssignmentManagementRootUsEast1/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "AssignmentManagementRootUsEast1/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.2.70"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "AssignmentManagementRootUsEast1/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.95.1"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "AssignmentManagementRootUsEast1/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.95.1"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.95.1"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.2.70"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.95.1"
+    }
+  }
+}

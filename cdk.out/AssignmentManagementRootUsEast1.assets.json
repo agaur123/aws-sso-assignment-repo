@@ -1,0 +1,20 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "68b4841b774a35ac32d65ce5cb8d46274bb26410849d2c3b83ec7612ff4e97ed": {
+      "source": {
+        "path": "AssignmentManagementRootUsEast1.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "68b4841b774a35ac32d65ce5cb8d46274bb26410849d2c3b83ec7612ff4e97ed.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,404 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "AssignmentManagementIAM.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "AssignmentManagementIAM.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "AssignmentManagementIAM": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "AssignmentManagementIAM.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ea4d1432059311e5d88c08ab240d0d34ceba6ade3495019e2af6954fdebae549.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "AssignmentManagementIAM.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "AssignmentManagementIAM.assets"
+      ],
+      "metadata": {
+        "/AssignmentManagementIAM/CTEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CTEventBusEAA6AEAD"
+          }
+        ],
+        "/AssignmentManagementIAM/CTEventBusPolicy": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CTEventBusPolicy"
+          }
+        ],
+        "/AssignmentManagementIAM/CTEventBusPolicyDeployment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CTEventBusPolicyDeployment"
+          }
+        ],
+        "/AssignmentManagementIAM/CTEventBusPolicyIAM": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CTEventBusPolicyIAM"
+          }
+        ],
+        "/AssignmentManagementIAM/ErrorNotificationTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ErrorNotificationTopic0DACB6F3"
+          }
+        ],
+        "/AssignmentManagementIAM/ErrorNotificationTopic/aman.gaur5@gilead.com/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ErrorNotificationTopicamangaur5gileadcom2700E6B9"
+          }
+        ],
+        "/AssignmentManagementIAM/permission-assignments-table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "permissionassignmentstable9AF35F45"
+          }
+        ],
+        "/AssignmentManagementIAM/assignment-processing-queue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "assignmentprocessingqueue31A78DA2"
+          }
+        ],
+        "/AssignmentManagementIAM/ServiceEventHandlerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceEventHandlerRole08403CFD"
+          }
+        ],
+        "/AssignmentManagementIAM/DBAssignmentHandlerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBAssignmentHandlerRole28FE2957"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefinitionHandlerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefinitionHandlerRole6E1F344D"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefinitionHandlerRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefinitionHandlerRoleDefaultPolicy2C5E9E74"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentExecRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentExecRole911FBA53"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentExecRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentExecRoleDefaultPolicy3DAA88AA"
+          }
+        ],
+        "/AssignmentManagementIAM/CommonLambdaLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CommonLambdaLayer45D02D64"
+          }
+        ],
+        "/AssignmentManagementIAM/OrganizationsLambdaLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrganizationsLambdaLayer6E05B9CF"
+          }
+        ],
+        "/AssignmentManagementIAM/SsoLambdaLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsoLambdaLayer5956D8D2"
+          }
+        ],
+        "/AssignmentManagementIAM/DBAssignmentHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBAssignmentHandler3353568E"
+          }
+        ],
+        "/AssignmentManagementIAM/DBAssignmentsEventsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBAssignmentsEventsRuleBC8A1FD4"
+          }
+        ],
+        "/AssignmentManagementIAM/DBAssignmentsEventsRule/AllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBAssignmentsEventsRuleAllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060B106131A"
+          }
+        ],
+        "/AssignmentManagementIAM/ServiceEventHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceEventHandler546AE822"
+          }
+        ],
+        "/AssignmentManagementIAM/ServiceEventHandlerEventsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceEventHandlerEventsRule810E9949"
+          }
+        ],
+        "/AssignmentManagementIAM/ServiceEventHandlerEventsRule/AllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B938": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceEventHandlerEventsRuleAllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B9385A66B628"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefinitionHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefinitionHandler8C51BCEE"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefinitionHandler/DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefinitionHandlerDynamoDBEventSourceAssignmentManagementIAMpermissionassignmentstableCD7FF9B4704AE65F"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefenitionEventsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefenitionEventsRuleE45A42B3"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentDefenitionEventsRule/AllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6C": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentDefenitionEventsRuleAllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6CD399E916"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentExecutionHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentExecutionHandlerC32C576A"
+          }
+        ],
+        "/AssignmentManagementIAM/AssignmentExecutionHandler/SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssignmentExecutionHandlerSqsEventSourceAssignmentManagementIAMassignmentprocessingqueue7F9208EDDBDB5B64"
+          }
+        ],
+        "/AssignmentManagementIAM/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/AssignmentManagementIAM/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/AssignmentManagementIAM/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/AssignmentManagementIAM/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "AssignmentManagementIAM"
+    },
+    "AssignmentManagementRoot.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "AssignmentManagementRoot.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "AssignmentManagementRoot": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "AssignmentManagementRoot.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ce73c8543e84459b34d8f64ee59a679058443377c8d0836d6f00f5ce93cf8c2c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "AssignmentManagementRoot.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "AssignmentManagementRoot.assets"
+      ],
+      "metadata": {
+        "/AssignmentManagementRoot/EnterpriseAWSSSOReadOnlyRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EnterpriseAWSSSOReadOnlyRole3C9D3C45"
+          }
+        ],
+        "/AssignmentManagementRoot/EnterpriseAWSSSOAssignmentManagementRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EnterpriseAWSSSOAssignmentManagementRole73EE007E"
+          }
+        ],
+        "/AssignmentManagementRoot/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/AssignmentManagementRoot/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/AssignmentManagementRoot/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/AssignmentManagementRoot/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "AssignmentManagementRoot"
+    },
+    "AssignmentManagementRootUsEast1.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "AssignmentManagementRootUsEast1.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "AssignmentManagementRootUsEast1": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/us-east-1",
+      "properties": {
+        "templateFile": "AssignmentManagementRootUsEast1.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/68b4841b774a35ac32d65ce5cb8d46274bb26410849d2c3b83ec7612ff4e97ed.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "AssignmentManagementRootUsEast1.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "AssignmentManagementRootUsEast1.assets"
+      ],
+      "metadata": {
+        "/AssignmentManagementRootUsEast1/OrganizationsEventsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrganizationsEventsRuleAAF055ED"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrganizationsEventsRuleEventsRole15EE8FDE"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrganizationsEventsRuleEventsRoleDefaultPolicyB39E6E6E"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/AWSSSOEventsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWSSSOEventsRule32B6F397"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWSSSOEventsRuleEventsRole1C4E9D3E"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWSSSOEventsRuleEventsRoleDefaultPolicy571229A5"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/AssignmentManagementRootUsEast1/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "AssignmentManagementRootUsEast1"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

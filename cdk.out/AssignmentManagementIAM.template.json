@@ -1,0 +1,1244 @@
+{
+ "Resources": {
+  "CTEventBusEAA6AEAD": {
+   "Type": "AWS::Events::EventBus",
+   "Properties": {
+    "Name": "enterprise-aws-sso"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CTEventBus/Resource"
+   }
+  },
+  "CTEventBusPolicy": {
+   "Type": "AWS::Events::EventBusPolicy",
+   "Properties": {
+    "Action": "events:PutEvents",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "Principal": "178337422308",
+    "StatementId": "allow-management-account"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CTEventBusPolicy"
+   }
+  },
+  "CTEventBusPolicyDeployment": {
+   "Type": "AWS::Events::EventBusPolicy",
+   "Properties": {
+    "Action": "events:PutEvents",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "Principal": "171511808349",
+    "StatementId": "allow-deployment-account"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CTEventBusPolicyDeployment"
+   }
+  },
+  "CTEventBusPolicyIAM": {
+   "Type": "AWS::Events::EventBusPolicy",
+   "Properties": {
+    "Action": "events:PutEvents",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "Principal": "171511808349",
+    "StatementId": "allow-iam-account"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CTEventBusPolicyIAM"
+   }
+  },
+  "ErrorNotificationTopic0DACB6F3": {
+   "Type": "AWS::SNS::Topic",
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ErrorNotificationTopic/Resource"
+   }
+  },
+  "ErrorNotificationTopicamangaur5gileadcom2700E6B9": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "aman.gaur5@gilead.com",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "ErrorNotificationTopic0DACB6F3"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ErrorNotificationTopic/aman.gaur5@gilead.com/Resource"
+   }
+  },
+  "permissionassignmentstable9AF35F45": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "mappingId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "mappingValue",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "mappingId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "mappingValue",
+      "KeyType": "RANGE"
+     }
+    ],
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "StreamSpecification": {
+     "StreamViewType": "NEW_AND_OLD_IMAGES"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/permission-assignments-table/Resource"
+   }
+  },
+  "assignmentprocessingqueue31A78DA2": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "DelaySeconds": 30,
+    "KmsMasterKeyId": "alias/aws/sqs",
+    "QueueName": "assignment-processing-queue",
+    "VisibilityTimeout": 300
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/assignment-processing-queue/Resource"
+   }
+  },
+  "ServiceEventHandlerRole08403CFD": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": "events:PutEvents",
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "CTEventBusEAA6AEAD",
+           "Arn"
+          ]
+         }
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "eventbus"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ServiceEventHandlerRole/Resource"
+   }
+  },
+  "DBAssignmentHandlerRole28FE2957": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:BatchWrite*",
+          "dynamodb:Update*",
+          "dynamodb:PutItem"
+         ],
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "permissionassignmentstable9AF35F45",
+           "Arn"
+          ]
+         }
+        },
+        {
+         "Action": [
+          "dynamodb:BatchWrite*",
+          "dynamodb:Update*",
+          "dynamodb:PutItem",
+          "dynamodb:Query",
+          "dynamodb:DeleteItem"
+         ],
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "permissionassignmentstable9AF35F45",
+           "Arn"
+          ]
+         }
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "dynamodb"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/DBAssignmentHandlerRole/Resource"
+   }
+  },
+  "AssignmentDefinitionHandlerRole6E1F344D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "sqs:SendMessage",
+          "sqs:SendMessageBatch",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl"
+         ],
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "assignmentprocessingqueue31A78DA2",
+           "Arn"
+          ]
+         }
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "sqs-publish-policy"
+     },
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:BatchWrite*",
+          "dynamodb:Update*",
+          "dynamodb:PutItem"
+         ],
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "permissionassignmentstable9AF35F45",
+           "Arn"
+          ]
+         }
+        },
+        {
+         "Action": [
+          "dynamodb:BatchWrite*",
+          "dynamodb:Update*",
+          "dynamodb:PutItem",
+          "dynamodb:Query",
+          "dynamodb:DeleteItem"
+         ],
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::GetAtt": [
+           "permissionassignmentstable9AF35F45",
+           "Arn"
+          ]
+         }
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "dynamodb"
+     }
+    ],
+    "RoleName": "assignment-management-read-only-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/Resource"
+   }
+  },
+  "AssignmentDefinitionHandlerRoleDefaultPolicy2C5E9E74": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": "arn:aws:iam::178337422308:role/assignment-management-read-only-role"
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "ErrorNotificationTopic0DACB6F3"
+       }
+      },
+      {
+       "Action": "dynamodb:ListStreams",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "permissionassignmentstable9AF35F45",
+         "StreamArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "permissionassignmentstable9AF35F45",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AssignmentDefinitionHandlerRoleDefaultPolicy2C5E9E74",
+    "Roles": [
+     {
+      "Ref": "AssignmentDefinitionHandlerRole6E1F344D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefinitionHandlerRole/DefaultPolicy/Resource"
+   }
+  },
+  "AssignmentExecRole911FBA53": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "sso:CreateAccountAssignment",
+          "sso:ListPermissionSetsProvisionedToAccount",
+          "sso:ListInstances",
+          "sso:DeleteAccountAssignment"
+         ],
+         "Effect": "Allow",
+         "Resource": "*"
+        },
+        {
+         "Action": "sns:Publish",
+         "Effect": "Allow",
+         "Resource": {
+          "Ref": "ErrorNotificationTopic0DACB6F3"
+         },
+         "Sid": "AllowPublishingToSns"
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "assignment-policy"
+     }
+    ],
+    "RoleName": "assignment-management-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentExecRole/Resource"
+   }
+  },
+  "AssignmentExecRoleDefaultPolicy3DAA88AA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": "arn:aws:iam::178337422308:role/assignment-management-role"
+      },
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:ChangeMessageVisibility",
+        "sqs:GetQueueUrl",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "assignmentprocessingqueue31A78DA2",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AssignmentExecRoleDefaultPolicy3DAA88AA",
+    "Roles": [
+     {
+      "Ref": "AssignmentExecRole911FBA53"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentExecRole/DefaultPolicy/Resource"
+   }
+  },
+  "CommonLambdaLayer45D02D64": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.10"
+    ],
+    "Content": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "3c89272f98883cf2d639211d7084e1ea5f6424a61d6de772aa22d184150e7700.zip"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CommonLambdaLayer/Resource",
+    "aws:asset:path": "/Users/amangaur/Desktop/tst/assignment-automation-4-aws-sso/src/layers/common",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Content"
+   }
+  },
+  "OrganizationsLambdaLayer6E05B9CF": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.10"
+    ],
+    "Content": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "a1ec388b7fba4e730ea630c95238f44556a2beb81d0776514b4ac6f41d61cbaa.zip"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/OrganizationsLambdaLayer/Resource",
+    "aws:asset:path": "/Users/amangaur/Desktop/tst/assignment-automation-4-aws-sso/src/layers/orgz",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Content"
+   }
+  },
+  "SsoLambdaLayer5956D8D2": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.10"
+    ],
+    "Content": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "0756395aac185901c1fdd81db3b436ccc3c26453ae9437b29f9cd721462c23bb.zip"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/SsoLambdaLayer/Resource",
+    "aws:asset:path": "/Users/amangaur/Desktop/tst/assignment-automation-4-aws-sso/src/layers/sso",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Content"
+   }
+  },
+  "DBAssignmentHandler3353568E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "0e987e982130a4f1b10aebb52de96614a8414afcf30b69e04720dc2b86eec165.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ERROR_TOPIC_NAME": {
+       "Ref": "ErrorNotificationTopic0DACB6F3"
+      },
+      "ASSIGNMENTS_TABLE_NAME": {
+       "Ref": "permissionassignmentstable9AF35F45"
+      },
+      "ASSOCIATIONID_KEY_NAME": "mappingId",
+      "ASSOCIATIONID_SORT_KEY_NAME": "mappingValue",
+      "LOG_LEVEL": "INFO",
+      "POWERTOOLS_SERVICE_NAME": "enterprise-aws-sso"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "CommonLambdaLayer45D02D64"
+     }
+    ],
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "DBAssignmentHandlerRole28FE2957",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.10"
+   },
+   "DependsOn": [
+    "DBAssignmentHandlerRole28FE2957"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/DBAssignmentHandler/Resource",
+    "aws:asset:path": "asset.0e987e982130a4f1b10aebb52de96614a8414afcf30b69e04720dc2b86eec165",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DBAssignmentsEventsRuleBC8A1FD4": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Forward record creation events",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "EventPattern": {
+     "source": [
+      "permissionEventSource"
+     ]
+    },
+    "Name": "Forwarding-to-db-assignment-handler",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "DBAssignmentHandler3353568E",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/DBAssignmentsEventsRule/Resource"
+   }
+  },
+  "DBAssignmentsEventsRuleAllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060B106131A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "DBAssignmentHandler3353568E",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "DBAssignmentsEventsRuleBC8A1FD4",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/DBAssignmentsEventsRule/AllowEventRuleAssignmentManagementIAMDBAssignmentHandler4C205060"
+   }
+  },
+  "ServiceEventHandler546AE822": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "03449e382d5c2a58c91f66e98652c4363534980015170697b7636cbb119de4cc.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ERROR_TOPIC_NAME": {
+       "Ref": "ErrorNotificationTopic0DACB6F3"
+      },
+      "LOG_LEVEL": "INFO",
+      "POWERTOOLS_SERVICE_NAME": "enterprise-aws-sso",
+      "IAM_EVENT_BRIDGE_ARN": {
+       "Fn::GetAtt": [
+        "CTEventBusEAA6AEAD",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "CommonLambdaLayer45D02D64"
+     }
+    ],
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ServiceEventHandlerRole08403CFD",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.10"
+   },
+   "DependsOn": [
+    "ServiceEventHandlerRole08403CFD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ServiceEventHandler/Resource",
+    "aws:asset:path": "asset.03449e382d5c2a58c91f66e98652c4363534980015170697b7636cbb119de4cc",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ServiceEventHandlerEventsRule810E9949": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Forward AWS Service Events",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "EventPattern": {
+     "detail-type": [
+      "AWS Service Event via CloudTrail",
+      "AWS API Call via CloudTrail"
+     ]
+    },
+    "Name": "Forwarding-to-service-event-handler",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "ServiceEventHandler546AE822",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ServiceEventHandlerEventsRule/Resource"
+   }
+  },
+  "ServiceEventHandlerEventsRuleAllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B9385A66B628": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ServiceEventHandler546AE822",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "ServiceEventHandlerEventsRule810E9949",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/ServiceEventHandlerEventsRule/AllowEventRuleAssignmentManagementIAMServiceEventHandler01A9B938"
+   }
+  },
+  "AssignmentDefinitionHandler8C51BCEE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "68e7341490e0c14941f248772ca8245bd833c33e2926c81c38d24ace3f781c7f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ASSIGNMENTS_TABLE_NAME": {
+       "Ref": "permissionassignmentstable9AF35F45"
+      },
+      "ASSIGNMENTS_QUEUE_URL": {
+       "Ref": "assignmentprocessingqueue31A78DA2"
+      },
+      "ERROR_TOPIC_NAME": {
+       "Ref": "ErrorNotificationTopic0DACB6F3"
+      },
+      "LOG_LEVEL": "INFO",
+      "POWERTOOLS_SERVICE_NAME": "enterprise-sso",
+      "ASSOCIATIONID_CONCAT_CHAR": "|",
+      "ASSOCIATIONID_KEY_NAME": "mappingId",
+      "ASSOCIATIONID_SORT_KEY_NAME": "mappingValue",
+      "SSO_ADMIN_ROLE_ARN": "arn:aws:iam::178337422308:role/assignment-management-read-only-role"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "CommonLambdaLayer45D02D64"
+     },
+     {
+      "Ref": "OrganizationsLambdaLayer6E05B9CF"
+     },
+     {
+      "Ref": "SsoLambdaLayer5956D8D2"
+     }
+    ],
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AssignmentDefinitionHandlerRole6E1F344D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.10",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "AssignmentDefinitionHandlerRoleDefaultPolicy2C5E9E74",
+    "AssignmentDefinitionHandlerRole6E1F344D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefinitionHandler/Resource",
+    "aws:asset:path": "asset.68e7341490e0c14941f248772ca8245bd833c33e2926c81c38d24ace3f781c7f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AssignmentDefinitionHandlerDynamoDBEventSourceAssignmentManagementIAMpermissionassignmentstableCD7FF9B4704AE65F": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 5,
+    "BisectBatchOnFunctionError": true,
+    "DestinationConfig": {
+     "OnFailure": {
+      "Destination": {
+       "Ref": "ErrorNotificationTopic0DACB6F3"
+      }
+     }
+    },
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "permissionassignmentstable9AF35F45",
+      "StreamArn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "AssignmentDefinitionHandler8C51BCEE"
+    },
+    "MaximumRetryAttempts": 3,
+    "StartingPosition": "TRIM_HORIZON"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefinitionHandler/DynamoDBEventSource:AssignmentManagementIAMpermissionassignmentstableCD7FF9B4/Resource"
+   }
+  },
+  "AssignmentDefenitionEventsRuleE45A42B3": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Forward Events",
+    "EventBusName": {
+     "Ref": "CTEventBusEAA6AEAD"
+    },
+    "EventPattern": {
+     "account": [
+      "171511808349"
+     ],
+     "source": [
+      "enterprise-aws-sso"
+     ]
+    },
+    "Name": "Forwarding-to-defenition-handler",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "AssignmentDefinitionHandler8C51BCEE",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefenitionEventsRule/Resource"
+   }
+  },
+  "AssignmentDefenitionEventsRuleAllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6CD399E916": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AssignmentDefinitionHandler8C51BCEE",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "AssignmentDefenitionEventsRuleE45A42B3",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentDefenitionEventsRule/AllowEventRuleAssignmentManagementIAMAssignmentDefinitionHandler75FA3F6C"
+   }
+  },
+  "AssignmentExecutionHandlerC32C576A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "ea0757c0442bfbe62120f7be0da7c5d86222c9fa38e3c211caa05ca31e4bb7bc.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ERROR_TOPIC_NAME": {
+       "Ref": "ErrorNotificationTopic0DACB6F3"
+      },
+      "LOG_LEVEL": "INFO",
+      "POWERTOOLS_SERVICE_NAME": "enterprise-sso",
+      "ASSOCIATIONID_CONCAT_CHAR": "|",
+      "SSO_ADMIN_ROLE_ARN": "arn:aws:iam::178337422308:role/assignment-management-role",
+      "MANAGEMENT_ACCOUNT_ID": "178337422308"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "CommonLambdaLayer45D02D64"
+     },
+     {
+      "Ref": "SsoLambdaLayer5956D8D2"
+     }
+    ],
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AssignmentExecRole911FBA53",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.10",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "AssignmentExecRoleDefaultPolicy3DAA88AA",
+    "AssignmentExecRole911FBA53"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentExecutionHandler/Resource",
+    "aws:asset:path": "asset.ea0757c0442bfbe62120f7be0da7c5d86222c9fa38e3c211caa05ca31e4bb7bc",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AssignmentExecutionHandlerSqsEventSourceAssignmentManagementIAMassignmentprocessingqueue7F9208EDDBDB5B64": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 10,
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "assignmentprocessingqueue31A78DA2",
+      "Arn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "AssignmentExecutionHandlerC32C576A"
+    },
+    "ScalingConfig": {
+     "MaximumConcurrency": 2
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/AssignmentExecutionHandler/SqsEventSource:AssignmentManagementIAMassignmentprocessingqueue7F9208ED/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21QwU7DMAz9lt3ToDLtwJFOcAKptBPXKU3NZtompU5AVdV/x0nLtEmc3vNz8vzse/mwk+lG/VCi6yZpsZJT6ZRuBEvHCb7BOJLTU8DMk9h/mP94blvUoyh8C0EOOAsy/PNge9RBW0jpK9ID9g6tCep1PYt6NKqzNWc4qGqxioS9vtjrzYOPYiSzQNXJqbDrzIBrDi4XNotWdVWt5PSiRhjeYaB18E397I3+S3TNcxg6pPgkblpaP2h4VX2P5nTZ/0blqNujIgI+22MArmXmdQMuU8ShC6D4XsQu3/q0el0azPfW1LjcJB/d2Zq7rUxTudt8EmIyeOOwA1ks+AuL1x9UxAEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementIAM/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

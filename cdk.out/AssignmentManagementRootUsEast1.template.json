@@ -1,0 +1,211 @@
+{
+ "Resources": {
+  "OrganizationsEventsRuleAAF055ED": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Forward Organizations events to enterprise-aws-sso",
+    "EventPattern": {
+     "detail": {
+      "eventName": [
+       "CreateAccountResult",
+       "MoveAccount",
+       "TagResource",
+       "UntagResource"
+      ]
+     },
+     "detail-type": [
+      "AWS Service Event via CloudTrail",
+      "AWS API Call via CloudTrail"
+     ],
+     "source": [
+      "aws.organizations"
+     ]
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso",
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "OrganizationsEventsRuleEventsRole15EE8FDE",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/Resource"
+   }
+  },
+  "OrganizationsEventsRuleEventsRole15EE8FDE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/Resource"
+   }
+  },
+  "OrganizationsEventsRuleEventsRoleDefaultPolicyB39E6E6E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "OrganizationsEventsRuleEventsRoleDefaultPolicyB39E6E6E",
+    "Roles": [
+     {
+      "Ref": "OrganizationsEventsRuleEventsRole15EE8FDE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/OrganizationsEventsRule/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "AWSSSOEventsRule32B6F397": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Forward CT events to enterprise-aws-sso",
+    "EventPattern": {
+     "detail": {
+      "eventName": [
+       "CreatePermissionSet",
+       "DeletePermissionSet"
+      ]
+     },
+     "detail-type": [
+      "AWS Service Event via CloudTrail",
+      "AWS API Call via CloudTrail"
+     ],
+     "source": [
+      "aws.sso"
+     ]
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso",
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "AWSSSOEventsRuleEventsRole1C4E9D3E",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/Resource"
+   }
+  },
+  "AWSSSOEventsRuleEventsRole1C4E9D3E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/Resource"
+   }
+  },
+  "AWSSSOEventsRuleEventsRoleDefaultPolicy571229A5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": "arn:aws:events:us-west-2:171511808349:event-bus/enterprise-aws-sso"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AWSSSOEventsRuleEventsRoleDefaultPolicy571229A5",
+    "Roles": [
+     {
+      "Ref": "AWSSSOEventsRuleEventsRole1C4E9D3E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/AWSSSOEventsRule/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/y2MQQ6DIBBFz+J+mIY2Lrr2AgYP0FA6jaMIiUAbQ7h7pbp6/7+f/CveW5SN/gZhXrOw/MQ8RG1mUBR8Wg3Bvj0yfcjFgFklS9C9XWUB1suu/Kkqe2/ZbLUeqZT/dH4V6Lc4ene5oZTYNlNgFmtykRdCdfAHJOBEBJIAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "AssignmentManagementRootUsEast1/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
